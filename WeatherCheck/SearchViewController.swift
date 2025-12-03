@@ -125,6 +125,7 @@ extension SearchViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: searchTableViewCell.identifier, for: indexPath) as! searchTableViewCell
+        cell.selectionStyle = .none
         let city = recentSearches[indexPath.row]
         cell.textLabel?.text = city
         cell.textLabel?.textColor = .white

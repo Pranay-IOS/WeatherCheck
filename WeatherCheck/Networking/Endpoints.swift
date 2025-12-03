@@ -10,8 +10,7 @@ import UIKit
 enum EndPoints {
     
     static let baseURL = "https://api.weatherapi.com/v1"
-//    "https://api.openweathermap.org/data/2.5"
-    static let weatherURL = "forecast.json" //"weather"
+    static let weatherURL = "forecast.json" 
     static let hourlyForecastURL = "forecast/hourly"
     static let forecastURL = "forecast/daily"
 }

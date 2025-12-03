@@ -177,24 +177,84 @@ class WeatherViewController: UIViewController,XIBed {
         }
         navigationController?.pushViewController(vc, animated: false)
     }
+}
+
+// MARK: API Calls
+extension WeatherViewController {
     
     func createUrlForCity(city: String) {
-        let apiKey = "c38cfbb1a8394776a8464301250212"//AppConfig.apiKey
+        let apiKey = AppConfig.apiKey
         let url = "\(EndPoints.baseURL)/\(EndPoints.weatherURL)?key=\(apiKey)&q=\(city)&days=6&aqi=no&alerts=no"
         
         print("URL: \(url)")
         fetchWeatherData(url: url, cacheIdentifier: city)
     }
     
+    func createUrlForLocation() {
+        guard let currentLocation = currentLocation else {
+            return
+        }
+        let long = currentLocation.coordinate.longitude
+        let lat = currentLocation.coordinate.latitude
+        let apiKey = AppConfig.apiKey
+        
+        let url = "\(EndPoints.baseURL)/\(EndPoints.weatherURL)?key=\(apiKey)&q=\(lat),\(long)&days=6&aqi=no&alerts=no"
+        
+        print("URL: \(url)")
+        let identifier = "\(lat),\(long)"
+        fetchWeatherData(url: url, cacheIdentifier: identifier)
+    }
+    
+    func fetchWeatherData(url: String, cacheIdentifier: String) {
+        APIClientService.shared.get(urlString: url) { (result: Result<WeatherDataModel, Error>) in
+            switch result {
+            case .success(let response):
+                print("API Success:")
+                
+                // ✅ Save to cache
+                WeatherCache.shared.save(response, for: cacheIdentifier)
+                
+                DispatchQueue.main.async {
+                    self.setupUI(response: response)
+                    self.tableView.hideSkeleton()
+                    self.hourlyCollectionView.hideSkeleton()
+                    self.refreshControl.endRefreshing()
+                }
+            case .failure(let error):
+                print("API Error:", error)
+                
+                // ✅ Try to load from cache on failure
+                if let cached = WeatherCache.shared.load(for: cacheIdentifier) {
+                    print("Using cached weather for:", cacheIdentifier)
+                    DispatchQueue.main.async {
+                        self.setupUI(response: cached)
+                        self.tableView.hideSkeleton()
+                        self.hourlyCollectionView.hideSkeleton()
+                        self.refreshControl.endRefreshing()
+                    }
+                    
+                } else {
+                    // Optional: show an alert to user
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(message: "Couldn’t load weather data. Please check your internet connection.")
+                        self.tableView.hideSkeleton()
+                        self.hourlyCollectionView.hideSkeleton()
+                        self.refreshControl.endRefreshing()
+                    }
+                }
+            }
+        }
+    }
 }
 
+// MARK: Location Delegate Methods
 extension WeatherViewController: CLLocationManagerDelegate {
     func setupLocation() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
-
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if !locations.isEmpty, currentLocation == nil  {
             currentLocation = locations.first
@@ -202,63 +262,10 @@ extension WeatherViewController: CLLocationManagerDelegate {
             createUrlForLocation()
         }
     }
+}
 
-    func createUrlForLocation() {
-        guard let currentLocation = currentLocation else {
-            return
-        }
-        let long = currentLocation.coordinate.longitude
-        let lat = currentLocation.coordinate.latitude
-        let apiKey = "c38cfbb1a8394776a8464301250212"//AppConfig.apiKey
-
-        let url = "\(EndPoints.baseURL)/\(EndPoints.weatherURL)?key=\(apiKey)&q=\(lat),\(long)&days=6&aqi=no&alerts=no"
-        
-        print("URL: \(url)")
-        
-        let identifier = "\(lat),\(long)"
-        fetchWeatherData(url: url, cacheIdentifier: identifier)
-    }
-    
-    func fetchWeatherData(url: String, cacheIdentifier: String) {
-        APIClientService.shared.get(urlString: url) { (result: Result<WeatherDataModel, Error>) in
-                switch result {
-                case .success(let response):
-                    print("API Success:")
-                    
-                    // ✅ Save to cache
-                    WeatherCache.shared.save(response, for: cacheIdentifier)
-                    
-                    DispatchQueue.main.async {
-                        self.setupUI(response: response)
-                        self.tableView.hideSkeleton()
-                        self.hourlyCollectionView.hideSkeleton()
-                        self.refreshControl.endRefreshing()
-                    }
-                case .failure(let error):
-                    print("API Error:", error)
-                    
-                    // ✅ Try to load from cache on failure
-                    if let cached = WeatherCache.shared.load(for: cacheIdentifier) {
-                        print("Using cached weather for:", cacheIdentifier)
-                        DispatchQueue.main.async {
-                            self.setupUI(response: cached)
-                            self.tableView.hideSkeleton()
-                            self.hourlyCollectionView.hideSkeleton()
-                            self.refreshControl.endRefreshing()
-
-                        }
-                    } else {
-                        // Optional: show an alert to user
-                        DispatchQueue.main.async {
-                            self.showErrorAlert(message: "Couldn’t load weather data. Please check your internet connection.")
-                            self.tableView.hideSkeleton()
-                            self.hourlyCollectionView.hideSkeleton()
-                            self.refreshControl.endRefreshing()
-                        }
-                    }
-                }
-            }
-    }
+// MARK: Custom Methods
+extension WeatherViewController {
     
     private func setupNetworkMonitor() {
         monitor.pathUpdateHandler = { [weak self] path in
@@ -284,6 +291,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
 }
 
+// MARK: TableView Methods
 extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -293,6 +301,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: WeatherTableViewCell.identifier, for: indexPath) as! WeatherTableViewCell
+        cell.selectionStyle = .none
         cell.configure(with: dailyForecast[indexPath.row], index: indexPath.row)
         return cell
     }
@@ -303,6 +312,7 @@ extension WeatherViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+// MARK: CollectionView Methods
 extension WeatherViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -321,8 +331,13 @@ extension WeatherViewController: UICollectionViewDelegate, UICollectionViewDataS
                             sizeForItemAt indexPath: IndexPath) -> CGSize {
             return CGSize(width: 80, height: 100)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+        return false
+    }
 }
 
+// MARK: Custom SkeletonView Methods
 extension WeatherViewController: SkeletonTableViewDataSource, SkeletonCollectionViewDataSource {
 
     // TABLE

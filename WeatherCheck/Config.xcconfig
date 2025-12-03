@@ -1,0 +1,11 @@
+//
+//  Config.xcconfig
+//  WeatherCheck
+//
+//  Created by Pranay Barua on 03/12/25.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+API_KEY = c38cfbb1a8394776a8464301250212
