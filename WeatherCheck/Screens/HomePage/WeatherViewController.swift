@@ -93,24 +93,14 @@ class WeatherViewController: UIViewController,XIBed {
         hourlyCollectionView.dataSource = self
         hourlyCollectionView.delegate = self
         
-        offlineView.layer.cornerRadius = 15
-        offlineView.layer.masksToBounds = true
-        offlineView.isHidden = true
+        Constants.addCornerRadius(myView: offlineView, radius: 15)
+//        offlineView.isHidden = true
         
-        tableViewParentView.layer.cornerRadius = 15
-        tableViewParentView.layer.masksToBounds = true
-        
-        collectionParentView.layer.cornerRadius = 15
-        collectionParentView.layer.masksToBounds = true
-        
-        windUiView.layer.cornerRadius = 10
-        windUiView.layer.masksToBounds = true
-        
-        humidityUiView.layer.cornerRadius = 10
-        humidityUiView.layer.masksToBounds = true
-        
-        insightsCollectionParentView.layer.cornerRadius = 15
-        insightsCollectionParentView.layer.masksToBounds = true
+        Constants.addCornerRadius(myView: tableViewParentView, radius: 15)
+        Constants.addCornerRadius(myView: collectionParentView, radius: 15)
+        Constants.addCornerRadius(myView: windUiView, radius: 15)
+        Constants.addCornerRadius(myView: humidityUiView, radius: 15)
+        Constants.addCornerRadius(myView: insightsCollectionParentView, radius: 15)
         
         refreshControl.tintColor = .white
         refreshControl.attributedTitle = NSAttributedString(
@@ -211,14 +201,21 @@ extension WeatherViewController {
             case .success(let response):
                 print("API Success:")
                 
-                // ✅ Save to cache
-                WeatherCache.shared.save(response, for: cacheIdentifier)
-                
-                DispatchQueue.main.async {
-                    self.setupUI(response: response)
-                    self.tableView.hideSkeleton()
-                    self.hourlyCollectionView.hideSkeleton()
-                    self.refreshControl.endRefreshing()
+                if response.error != nil {
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(message: "\(response.error?.message ?? "Unknown Error")")
+                    }
+                    return
+                } else {
+                    // ✅ Save to cache
+                    WeatherCache.shared.save(response, for: cacheIdentifier)
+                    
+                    DispatchQueue.main.async {
+                        self.setupUI(response: response)
+                        self.tableView.hideSkeleton()
+                        self.hourlyCollectionView.hideSkeleton()
+                        self.refreshControl.endRefreshing()
+                    }
                 }
             case .failure(let error):
                 print("API Error:", error)

@@ -12,6 +12,7 @@ struct WeatherDataModel: Codable {
     let location: Location?
     let current: Current?
     let forecast: Forecast?
+    let error: myError?
 }
 
 // MARK: - Current
@@ -205,4 +206,10 @@ struct Location: Codable {
         case localtimeEpoch = "localtime_epoch"
         case localtime
     }
+}
+
+// MARK: - Error
+struct myError: Codable {
+    let code: Int?
+    let message: String?
 }

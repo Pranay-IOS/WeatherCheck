@@ -70,4 +70,9 @@ struct Constants {
         
         return "\(dayMonthString) \(suffix)"
     }
+    
+    public static func addCornerRadius(myView: UIView, radius: CGFloat) {
+        myView.layer.cornerRadius = radius
+        myView.layer.masksToBounds = true
+    }
 }
