@@ -38,7 +38,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         
         timeLabel.text = time
         let tempInInt = Int(viewModel.tempC ?? 0)
-        tempLabel.text = "\(tempInInt)°"
+        tempLabel.text = "\(tempInInt)°C"
         
         self.iconImg.image = UIImage(systemName: "\(viewModel.condition?.conditionName ?? "")")
     }

@@ -40,7 +40,7 @@ class WeatherTableViewCell: UITableViewCell {
         
         let minTempInInt = Int(viewModel.day?.mintempC ?? 0)
         let maxTempInInt = Int(viewModel.day?.maxtempC ?? 0)
-        maxMinTempLabel.text = "\(maxTempInInt)°/\(minTempInInt)°"
+        maxMinTempLabel.text = "\(maxTempInInt)°C/\(minTempInInt)°C"
         self.weatherIconImg.image = UIImage(systemName: viewModel.day?.condition?.conditionName ?? "")
     }
 
