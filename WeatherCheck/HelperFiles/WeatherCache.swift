@@ -47,7 +47,6 @@ final class WeatherCache {
                     return nil
                 }
             }
-            
             return wrapper.data
         } catch {
             print("❌ Failed to decode weather cache:", error)
