@@ -17,6 +17,7 @@ class WeatherViewController: UIViewController,XIBed {
     @IBOutlet weak var temperatureLable: UILabel!
     @IBOutlet weak var weatherDetailsLable: UILabel!
 
+    @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var hourlyCollectionView:
     UICollectionView!
     @IBOutlet var tableView: UITableView!
@@ -44,6 +45,8 @@ class WeatherViewController: UIViewController,XIBed {
     let monitor = NWPathMonitor()
     let monitorQueue = DispatchQueue(label: "NetworkMonitor")
     private var isConnected: Bool = true
+    private let refreshControl = UIRefreshControl()
+
     
     var dailyForecast:[Forecastday] = [] {
         didSet {
@@ -108,6 +111,15 @@ class WeatherViewController: UIViewController,XIBed {
         
         insightsCollectionParentView.layer.cornerRadius = 15
         insightsCollectionParentView.layer.masksToBounds = true
+        
+        refreshControl.tintColor = .white
+        refreshControl.attributedTitle = NSAttributedString(
+            string: "Pull to refresh",
+            attributes: [.foregroundColor: UIColor.white.withAlphaComponent(0.7)]
+        )
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        scrollView.refreshControl = refreshControl
+        
     }
     
     func registerCells(){
@@ -135,9 +147,32 @@ class WeatherViewController: UIViewController,XIBed {
         self.humidityLabel.text = "\(windDetails?.humidity ?? 0)%"
     }
     
+    @objc private func handleRefresh() {
+        // Optional: don’t try network calls if offline
+        if !isConnected {
+            refreshControl.endRefreshing()
+            return
+        }
+
+        // Show skeleton again (optional)
+        startLoadingSkeleton()
+
+        // If user searched a city earlier, use that
+        if !city.isEmpty {
+            createUrlForCity(city: city)
+        } else if currentLocation != nil {
+            // Otherwise refresh by location
+            createUrlForLocation()
+        } else {
+            // No city and no location yet → request location again
+            setupLocation()
+        }
+    }
+    
     @IBAction func searchBtnTapped(_ sender: UIButton) {
         let vc = SearchViewController.instantiate()
         vc.completion = { name in
+            self.city = name
             self.createUrlForCity(city: name)
         }
         navigationController?.pushViewController(vc, animated: false)
@@ -197,6 +232,7 @@ extension WeatherViewController: CLLocationManagerDelegate {
                         self.setupUI(response: response)
                         self.tableView.hideSkeleton()
                         self.hourlyCollectionView.hideSkeleton()
+                        self.refreshControl.endRefreshing()
                     }
                 case .failure(let error):
                     print("API Error:", error)
@@ -208,12 +244,16 @@ extension WeatherViewController: CLLocationManagerDelegate {
                             self.setupUI(response: cached)
                             self.tableView.hideSkeleton()
                             self.hourlyCollectionView.hideSkeleton()
+                            self.refreshControl.endRefreshing()
 
                         }
                     } else {
                         // Optional: show an alert to user
                         DispatchQueue.main.async {
                             self.showErrorAlert(message: "Couldn’t load weather data. Please check your internet connection.")
+                            self.tableView.hideSkeleton()
+                            self.hourlyCollectionView.hideSkeleton()
+                            self.refreshControl.endRefreshing()
                         }
                     }
                 }

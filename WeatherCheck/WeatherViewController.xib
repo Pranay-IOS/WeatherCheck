@@ -21,6 +21,7 @@
                 <outlet property="insightsCollectionParentView" destination="49C-HD-zal" id="coi-M5-qXu"/>
                 <outlet property="lastUpdatedLabel" destination="4uk-84-NXr" id="nrk-C5-aiI"/>
                 <outlet property="offlineView" destination="X6F-yd-fp7" id="g7G-Jj-awK"/>
+                <outlet property="scrollView" destination="A21-Ab-ptX" id="tDm-jL-sXG"/>
                 <outlet property="searchButton" destination="A96-74-XSO" id="pjX-Yb-8Ui"/>
                 <outlet property="sunsetLabel" destination="Ere-yY-iwZ" id="3r8-gQ-PT0"/>
                 <outlet property="tableView" destination="dw4-Nc-NHx" id="I5n-8l-LfJ"/>
@@ -42,13 +43,13 @@
                     <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oKw-nD-VET">
-                    <rect key="frame" x="10" y="30" width="11" height="26.5"/>
+                    <rect key="frame" x="20" y="40" width="11" height="26.5"/>
                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="22"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="A96-74-XSO">
-                    <rect key="frame" x="130" y="21" width="50" height="44.5"/>
+                    <rect key="frame" x="130" y="31" width="50" height="44.5"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="50" id="qqM-up-ryp"/>
                     </constraints>
@@ -68,7 +69,7 @@
                     </connections>
                 </button>
                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X6F-yd-fp7">
-                    <rect key="frame" x="-5" y="66.5" width="210" height="40"/>
+                    <rect key="frame" x="-5" y="76.5" width="210" height="40"/>
                     <subviews>
                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4uk-84-NXr">
                             <rect key="frame" x="20" y="11" width="170" height="18"/>
@@ -86,8 +87,8 @@
                         <constraint firstAttribute="trailing" secondItem="4uk-84-NXr" secondAttribute="trailing" constant="20" id="qaD-uR-929"/>
                     </constraints>
                 </view>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A21-Ab-ptX">
-                    <rect key="frame" x="0.0" y="115.5" width="200" height="551.5"/>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A21-Ab-ptX">
+                    <rect key="frame" x="0.0" y="125.5" width="200" height="541.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbU-yf-P6r">
                             <rect key="frame" x="0.0" y="0.0" width="200" height="859"/>
@@ -374,7 +375,7 @@
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstItem="X6F-yd-fp7" firstAttribute="centerX" secondItem="vbI-8H-ZfN" secondAttribute="centerX" id="8yS-Xi-PPD"/>
-                <constraint firstItem="oKw-nD-VET" firstAttribute="top" secondItem="OF0-Fc-Eb6" secondAttribute="top" constant="10" id="CWe-WL-pNF"/>
+                <constraint firstItem="oKw-nD-VET" firstAttribute="top" secondItem="OF0-Fc-Eb6" secondAttribute="top" constant="20" id="CWe-WL-pNF"/>
                 <constraint firstItem="X6F-yd-fp7" firstAttribute="top" secondItem="oKw-nD-VET" secondAttribute="bottom" constant="10" id="X6X-kp-8fo"/>
                 <constraint firstItem="A21-Ab-ptX" firstAttribute="leading" secondItem="vbI-8H-ZfN" secondAttribute="leading" id="XSw-L4-sLp"/>
                 <constraint firstItem="A21-Ab-ptX" firstAttribute="top" secondItem="X6F-yd-fp7" secondAttribute="bottom" constant="9" id="XcM-Lc-U9d"/>
@@ -385,7 +386,7 @@
                 <constraint firstItem="rYf-y4-fZj" firstAttribute="leading" secondItem="OF0-Fc-Eb6" secondAttribute="leading" id="gXZ-jI-nVd"/>
                 <constraint firstItem="A96-74-XSO" firstAttribute="centerY" secondItem="oKw-nD-VET" secondAttribute="centerY" id="rkQ-uC-axv"/>
                 <constraint firstItem="A21-Ab-ptX" firstAttribute="top" secondItem="A96-74-XSO" secondAttribute="bottom" constant="50" id="t2w-Z8-766"/>
-                <constraint firstItem="oKw-nD-VET" firstAttribute="leading" secondItem="OF0-Fc-Eb6" secondAttribute="leading" constant="10" id="uc9-Nv-5i3"/>
+                <constraint firstItem="oKw-nD-VET" firstAttribute="leading" secondItem="OF0-Fc-Eb6" secondAttribute="leading" constant="20" id="uc9-Nv-5i3"/>
                 <constraint firstAttribute="bottom" secondItem="rYf-y4-fZj" secondAttribute="bottom" id="vdy-6m-Zvj"/>
                 <constraint firstItem="OF0-Fc-Eb6" firstAttribute="trailing" secondItem="A96-74-XSO" secondAttribute="trailing" constant="20" id="yep-gf-sep"/>
             </constraints>
