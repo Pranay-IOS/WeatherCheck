@@ -12,7 +12,6 @@ It provides real-time and forecasted weather data using network APIs, along with
 - 📅 **6-day forecast**
 - ⏰ **Hourly weather updates**
 - 💾 **Offline mode with local cache fallback**
-- 🧠 **Smart retry logic on network failure**
 - 📖 **Search history (last 5 queries saved)**
 - 🦴 **Shimmer Skeleton loading animations (SkeletonView)**
 - 🔄 **Pull-to-Refresh support**
