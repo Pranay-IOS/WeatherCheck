@@ -30,7 +30,7 @@ struct Constants {
         // Format normally
         let outputFormatter = DateFormatter()
         outputFormatter.dateFormat = "h a"
-        let formatted = outputFormatter.string(from: date).lowercased()
+//        let formatted = outputFormatter.string(from: date).lowercased()
         outputFormatter.locale = Locale(identifier: "en_US_POSIX")
         
         return outputFormatter.string(from: date)

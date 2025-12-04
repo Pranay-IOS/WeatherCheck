@@ -45,7 +45,7 @@ class SearchViewController: UIViewController,XIBed {
         recentSearchTableView.register(searchTableViewCell.nib(), forCellReuseIdentifier: searchTableViewCell.identifier)
         
         searchTextField.attributedPlaceholder = NSAttributedString(
-            string: "Search for city",
+            string: "Search for city or place",
             attributes: [
                 .foregroundColor: UIColor.white.withAlphaComponent(0.6),
                 .font: UIFont.systemFont(ofSize: 16, weight: .medium)
