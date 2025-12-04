@@ -91,7 +91,7 @@
                     <rect key="frame" x="0.0" y="125.5" width="200" height="541.5"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zbU-yf-P6r">
-                            <rect key="frame" x="0.0" y="0.0" width="200" height="848"/>
+                            <rect key="frame" x="0.0" y="0.0" width="200" height="845.5"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="twS-D3-GCa">
                                     <rect key="frame" x="20" y="0.0" width="160" height="60"/>
@@ -100,13 +100,13 @@
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="_" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XDC-gN-Kcp">
-                                    <rect key="frame" x="20" y="80" width="160" height="24"/>
-                                    <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                                    <rect key="frame" x="20" y="80" width="160" height="21.5"/>
+                                    <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
                                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FhX-Fj-HW1">
-                                    <rect key="frame" x="20" y="124" width="160" height="100"/>
+                                    <rect key="frame" x="20" y="121.5" width="160" height="100"/>
                                     <subviews>
                                         <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="m50-Av-wqk">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="100"/>
@@ -132,7 +132,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Zf-Te-VNr">
-                                    <rect key="frame" x="20" y="244" width="160" height="300"/>
+                                    <rect key="frame" x="20" y="241.5" width="160" height="300"/>
                                     <subviews>
                                         <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="dw4-Nc-NHx">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="300"/>
@@ -151,7 +151,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="49C-HD-zal" userLabel="Sunrise View">
-                                    <rect key="frame" x="20" y="564" width="160" height="122"/>
+                                    <rect key="frame" x="20" y="561.5" width="160" height="122"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="hLq-uw-7c3">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="122"/>
@@ -243,7 +243,7 @@
                                     </constraints>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CqM-mg-1sE" userLabel="Wind View">
-                                    <rect key="frame" x="20" y="706" width="160" height="122"/>
+                                    <rect key="frame" x="20" y="703.5" width="160" height="122"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="GGe-WN-TaJ">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="122"/>

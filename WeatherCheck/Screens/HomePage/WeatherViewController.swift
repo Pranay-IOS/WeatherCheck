@@ -55,7 +55,7 @@ class WeatherViewController: UIViewController,XIBed {
         }
     }
     
-    var hourlyForecast: [Current] = [] {
+    var hourlyForecast: [Hour] = [] {
         didSet {
             hourlyCollectionView.reloadData()
         }
@@ -123,7 +123,7 @@ class WeatherViewController: UIViewController,XIBed {
         let maxTempInCelcius: Int = Int(response.forecast?.forecastday?[0].day?.maxtempC ?? 0)
         let minTempInCelcius: Int = Int(response.forecast?.forecastday?[0].day?.mintempC ?? 0)
         self.temperatureLable.text = "\(tempInCelcius)°C"
-        self.weatherDetailsLable.text = "\(response.forecast?.forecastday?[0].day?.condition?.text ?? "") | \(maxTempInCelcius)°/\(minTempInCelcius)°"
+        self.weatherDetailsLable.text = "\(response.forecast?.forecastday?[0].day?.condition?.text ?? "") | max \(maxTempInCelcius)°/ min\(minTempInCelcius)° | uv = \(response.current?.uv ?? 0)"
         
         self.dailyForecast = response.forecast?.forecastday ?? []
         self.hourlyForecast = response.forecast?.forecastday?[0].hour ?? []
@@ -173,6 +173,7 @@ class WeatherViewController: UIViewController,XIBed {
 extension WeatherViewController {
     
     func createUrlForCity(city: String) {
+        startLoadingSkeleton()
         let apiKey = AppConfig.apiKey
         let url = "\(EndPoints.baseURL)/\(EndPoints.weatherURL)?key=\(apiKey)&q=\(city)&days=6&aqi=no&alerts=no"
         
@@ -181,6 +182,7 @@ extension WeatherViewController {
     }
     
     func createUrlForLocation() {
+        startLoadingSkeleton()
         guard let currentLocation = currentLocation else {
             return
         }
@@ -204,6 +206,9 @@ extension WeatherViewController {
                 if response.error != nil {
                     DispatchQueue.main.async {
                         self.showErrorAlert(message: "\(response.error?.message ?? "Unknown Error")")
+                        self.tableView.hideSkeleton()
+                        self.hourlyCollectionView.hideSkeleton()
+                        self.refreshControl.endRefreshing()
                     }
                     return
                 } else {
@@ -233,7 +238,7 @@ extension WeatherViewController {
                 } else {
                     // Optional: show an alert to user
                     DispatchQueue.main.async {
-                        self.showErrorAlert(message: "Couldn’t load weather data. Please check your internet connection.")
+                        self.showErrorAlert(message: "Couldn’t load weather data. Server Error.")
                         self.tableView.hideSkeleton()
                         self.hourlyCollectionView.hideSkeleton()
                         self.refreshControl.endRefreshing()

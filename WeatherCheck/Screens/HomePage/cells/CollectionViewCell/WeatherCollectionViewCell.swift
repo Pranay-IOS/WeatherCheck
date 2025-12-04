@@ -31,7 +31,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         tempLabel.isSkeletonable = true
     }
     
-    func configure(with viewModel: Current, index: Int) {
+    func configure(with viewModel: Hour, index: Int) {
         
         let dateTime = viewModel.time ?? ""
         let time = (Constants.formattedHour(from: dateTime))
