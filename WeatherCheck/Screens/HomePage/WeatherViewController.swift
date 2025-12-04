@@ -118,7 +118,7 @@ class WeatherViewController: UIViewController,XIBed {
     }
     
     private func setupUI(response: WeatherDataModel) {
-        self.cityNameLabel.text = response.location?.name
+        self.cityNameLabel.text = "\(response.location?.name ?? ""), \(response.location?.country ?? "")"
         let tempInCelcius: Int = Int(response.current?.tempC ?? 0)
         let maxTempInCelcius: Int = Int(response.forecast?.forecastday?[0].day?.maxtempC ?? 0)
         let minTempInCelcius: Int = Int(response.forecast?.forecastday?[0].day?.mintempC ?? 0)
